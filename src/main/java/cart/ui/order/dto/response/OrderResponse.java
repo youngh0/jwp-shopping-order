@@ -33,7 +33,7 @@ public class OrderResponse {
     public static OrderResponse from(OrderResultDto orderResultDto) {
         return new OrderResponse(
                 orderResultDto.getOrderId(),
-                orderResultDto.getOrderedItems(),
+                orderResultDto.getOrderItems(),
                 orderResultDto.getUsedCoupons(),
                 orderResultDto.getUsedPoint(),
                 orderResultDto.getPaymentPrice(),
