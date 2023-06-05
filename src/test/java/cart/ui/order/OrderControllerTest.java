@@ -7,7 +7,6 @@ import cart.application.repository.ProductRepository;
 import cart.domain.Member;
 import cart.domain.Product;
 import cart.domain.cartitem.CartItem;
-import cart.fixture.MemberFixture;
 import cart.fixture.ProductFixture;
 import cart.ui.order.dto.request.CreateOrderDiscountRequest;
 import cart.ui.order.dto.request.CreateOrderItemRequest;
@@ -29,6 +28,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
+import static cart.fixture.MemberFixture.디노;
 import static cart.fixture.MemberFixture.레오;
 import static cart.fixture.ProductFixture.배변패드;
 import static cart.fixture.ProductFixture.통구이;
@@ -76,7 +76,7 @@ public class OrderControllerTest {
     void setUp() {
         RestAssured.port = port;
         leoId = memberRepository.createMember(레오);
-        dinoId = memberRepository.createMember(MemberFixture.디노);
+        dinoId = memberRepository.createMember(디노);
 
         createCoupon();
         createProduct();
@@ -236,7 +236,7 @@ public class OrderControllerTest {
         CreateOrderDiscountRequest orderDiscounts2 = new CreateOrderDiscountRequest(List.of(), 3000);
         CreateOrderRequest createOrderRequest2 = new CreateOrderRequest(List.of(padCart), orderDiscounts2);
         given().log().all()
-                .auth().preemptive().basic(레오.getEmail(), 레오.getPassword())
+                .auth().preemptive().basic(디노.getEmail(), 디노.getPassword())
                 .contentType(ContentType.JSON)
                 .body(createOrderRequest2)
                 .when().post("/orders")

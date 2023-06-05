@@ -93,4 +93,20 @@ class OrderJdbcRepositoryTest {
     void findNonExistOrderTest() {
         assertThat(orderJdbcRepository.findOrderBy(1L, dinoId)).isEmpty();
     }
+
+    @DisplayName("")
+    @Test
+    void findOrderByWrongMember() {
+        Member dino = new Member(dinoId, 디노_ID포함.getName(), 디노_ID포함.getEmail(), 디노_ID포함.getEmail());
+        Order order1 = new Order(11400, 15000, 2000, dino);
+        Long order1Id = orderJdbcRepository.createOrder(order1);
+
+        Order order2 = new Order(12000, 17000, 3000, dino);
+        Long order2Id = orderJdbcRepository.createOrder(order2);
+
+        assertThat(orderJdbcRepository.findOrderBy(order1Id, beaverId)).isEmpty();
+
+//        Order savedOrder1 = new Order(order1Id, order1.getPaymentPrice(), order1.getTotalPrice(), order1.getPoint(), order1.getMember(), order1.getCreatedAt());
+//        Order savedOrder2 = new Order(order2Id, order2.getPaymentPrice(), order2.getTotalPrice(), order2.getPoint(), order2.getMember(), order2.getCreatedAt());
+    }
 }

@@ -10,6 +10,9 @@ import cart.domain.coupon.Coupon;
 import cart.domain.order.Order;
 import cart.domain.order.OrderItem;
 import cart.ui.MemberAuth;
+import cart.ui.exception.ControllerExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class OrderReadService {
-
+    private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
     private final OrderRepository orderRepository;
     private final OrderedItemRepository orderedItemRepository;
     private final CouponRepository couponRepository;
@@ -44,7 +47,10 @@ public class OrderReadService {
     }
 
     public OrderResultDto findOrderBy(Long orderId, Long memberId) {
-        Order order = orderRepository.findOrderBy(orderId, memberId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 주문입니다. " + orderId));
+        Order order = orderRepository.findOrderBy(orderId, memberId).orElseThrow(() -> {
+            logger.warn("주문 단건 조회 요청 orderId = {}, memberId ={}", orderId, memberId);
+            throw new NoSuchElementException("존재하지 않는 주문입니다. " + orderId);
+        });
         List<OrderedItemResult> orderedItemResults = makeOrderItemResults(order);
         List<UsedCoupon> usedCoupons = makeUsedCoupons(order);
         return new OrderResultDto(order.getId(), orderedItemResults, usedCoupons, order.getPoint(), order.getPaymentPrice(), order.getCreatedAt());
