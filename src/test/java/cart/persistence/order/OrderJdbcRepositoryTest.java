@@ -83,7 +83,7 @@ class OrderJdbcRepositoryTest {
         Order savedOrder1 = new Order(order1Id, order1.getPaymentPrice(), order1.getTotalPrice(), order1.getPoint(), order1.getMember(), order1.getCreatedAt());
         Order savedOrder2 = new Order(order2Id, order2.getPaymentPrice(), order2.getTotalPrice(), order2.getPoint(), order2.getMember(), order2.getCreatedAt());
 
-        Order orderResult = orderJdbcRepository.findOrderBy(order1Id).get();
+        Order orderResult = orderJdbcRepository.findOrderBy(order1Id, dinoId).get();
 
         assertThat(orderResult).isEqualTo(savedOrder1);
     }
@@ -91,6 +91,6 @@ class OrderJdbcRepositoryTest {
     @DisplayName("존재하지 않는 특정 주문 조회 시 예외발생")
     @Test
     void findNonExistOrderTest() {
-        assertThat(orderJdbcRepository.findOrderBy(1L)).isEmpty();
+        assertThat(orderJdbcRepository.findOrderBy(1L, dinoId)).isEmpty();
     }
 }

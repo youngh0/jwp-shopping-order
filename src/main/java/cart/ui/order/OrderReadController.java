@@ -31,7 +31,7 @@ public class OrderReadController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> findProductsByOrder(MemberAuth memberAuth, @PathVariable Long orderId) {
-        return ResponseEntity.ok(OrderResponse.from(orderReadService.findOrderBy(orderId)));
+        return ResponseEntity.ok(OrderResponse.from(orderReadService.findOrderBy(orderId, memberAuth.getId())));
     }
 
 }

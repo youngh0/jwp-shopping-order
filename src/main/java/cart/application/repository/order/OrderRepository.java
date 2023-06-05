@@ -11,6 +11,6 @@ public interface OrderRepository {
 
     List<Order> findOrdersByMemberId(Long memberId);
 
-    Optional<Order> findOrderBy(Long orderId);
+    Optional<Order> findOrderBy(Long orderId, Long memberId);
 
 }

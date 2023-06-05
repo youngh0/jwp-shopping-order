@@ -60,10 +60,10 @@ public class OrderJdbcRepository implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findOrderBy(Long orderId) {
-        String sql = "SELECT * FROM orders JOIN member ON member.id = orders.member_id WHERE orders.id = ?";
+    public Optional<Order> findOrderBy(Long orderId, Long memberId) {
+        String sql = "SELECT * FROM orders JOIN member ON member.id = orders.member_id WHERE orders.id = ? AND member.id = ?";
         try {
-            Order order = jdbcTemplate.queryForObject(sql, orderRowMapper, orderId);
+            Order order = jdbcTemplate.queryForObject(sql, orderRowMapper, orderId, memberId);
             return Optional.of(order);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
